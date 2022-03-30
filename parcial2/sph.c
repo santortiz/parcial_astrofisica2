@@ -619,10 +619,10 @@ void NN(int i)
 
       if(i!=cell[cell[part[i].celdaId].nn[k]].np[j]){
 
-        xij = part[i].pos[X] - part[cell[k].np[j]].pos[X];
-        yij = part[i].pos[Y] - part[cell[k].np[j]].pos[Y];
+        xij = part[i].pos[X] - part[cell[cell[part[i].celdaId].nn[k]].np[j]].pos[X];
+        yij = part[i].pos[Y] - part[cell[cell[part[i].celdaId].nn[k]].np[j]].pos[Y];
         rij = sqrt( xij*xij + yij*yij );
-        hij = 0.5*(part[i].h+part[cell[k].np[j]].h);
+        hij = 0.5*(part[i].h+part[cell[cell[part[i].celdaId].nn[k]].np[j]].h);
 
         if( rij < kappa*hij){
 
@@ -669,7 +669,7 @@ void NN(int i)
           part[i].dWy = auxDouble;
           auxDouble = NULL;
           
-          part[i].nn[nNeighbors-1] = cell[k].np[j];
+          part[i].nn[nNeighbors-1] = cell[cell[part[i].celdaId].nn[k]].np[j];
           part[i].dx[nNeighbors-1] = xij;
           part[i].dy[nNeighbors-1] = yij;
           part[i].r[nNeighbors-1] = rij;
@@ -1030,7 +1030,7 @@ void addParticles(int i, double h,  int nFluid){
   double xij, yij;
   int j, *auxInt;
 
-  for (j=0; j<nFluid; j++){
+  for (j=0; j<nFluid + 320; j++){
 
     xij = fabs(cell[i].pos[X] - part[j].pos[X]);
     yij = fabs(cell[i].pos[Y] - part[j].pos[Y]);
